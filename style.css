@@ -1,0 +1,1373 @@
+/* SKEUOFIT - Tactile Calorie & Water Journal Design System */
+
+:root {
+  --color-desk: #22252a;
+  --color-leather-dark: #321e0e;
+  --color-leather-light: #52341d;
+  --color-leather-edge: #1a0f07;
+  
+  --color-paper: #fefdf6;
+  --color-paper-lines: #c3e2f8;
+  --color-paper-margin: #f1b3b3;
+  --color-ink: #1e2d5a;
+  
+  --color-metal-light: #e0e0e0;
+  --color-metal-mid: #9c9c9c;
+  --color-metal-dark: #5c5c5c;
+  --color-brass: #b89742;
+  --color-brass-glow: #e2c166;
+  
+  --color-nixie-bg: #100502;
+  --color-nixie-glow-orange: #ff5e00;
+  --color-nixie-glow-blue: #00c3ff;
+  --color-led-glass: rgba(26, 8, 4, 0.95);
+  
+  --color-plastic-casing: #e6dfd3;
+  --color-polaroid-frame: #ffffff;
+  --color-polaroid-shadow: rgba(0, 0, 0, 0.25);
+  
+  --font-display: 'VT323', monospace;
+  --font-handwritten: 'Architects Daughter', cursive;
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+}
+
+/* Reset & Scrollbar styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-desk);
+  /* Wood desk grain pattern */
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,255,255,0.02) 50px, rgba(255,255,255,0.02) 100px),
+    linear-gradient(to right, #1b1613, #2e2621, #1b1613);
+  font-family: var(--font-sans);
+  color: #f0f0f0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* Desk Mat / Workstation Container */
+.desk-mat {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  perspective: 1000px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+/* ------------------------------------------------------------- */
+/* MAIN ORGANIZER BOOK                                           */
+/* ------------------------------------------------------------- */
+.organizer-book {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 780px;
+  background: linear-gradient(135deg, var(--color-leather-light), var(--color-leather-dark));
+  border-radius: 18px;
+  /* Thick leather cover depth */
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    inset 0 2px 4px rgba(255,255,255,0.3),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.8),
+    inset 4px 0 10px rgba(255,255,255,0.15),
+    0 0 0 12px var(--color-leather-edge),
+    0 15px 30px 10px rgba(0, 0, 0, 0.5);
+  padding: 18px;
+  gap: 8px;
+}
+
+/* Spine Binder & Rings */
+.organizer-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  background: linear-gradient(to right, #1f140c, #0a0604, #1f140c);
+  z-index: 10;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.spine-ring {
+  width: 60px;
+  height: 24px;
+  background: linear-gradient(to bottom, #f2f2f2, #999, #555, #f2f2f2);
+  border-radius: 12px;
+  position: relative;
+  box-shadow: 
+    0 8px 12px rgba(0,0,0,0.6),
+    inset 0 1px 3px rgba(255,255,255,0.8),
+    inset 0 -1px 3px rgba(0,0,0,0.6);
+  z-index: 12;
+}
+
+.spine-ring::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  right: 6px;
+  height: 4px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 2px;
+}
+
+/* Left & Right Pages */
+.organizer-page {
+  flex: 1;
+  background-color: #2b2b2b;
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 0 20px rgba(0,0,0,0.9),
+    3px 6px 12px rgba(0,0,0,0.5);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.left-page {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background: radial-gradient(circle at 30% 20%, #3e3e3e, #242424);
+  border-right: 2px solid #1a1a1a;
+}
+
+.right-page {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background: radial-gradient(circle at 70% 20%, #3a3a3a, #212121);
+  border-left: 2px solid #1a1a1a;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 15px;
+}
+
+/* Screws in Metal Panels */
+.screw {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle at 3px 3px, #e6e6e6, #888, #444);
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+.screw::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 1px;
+  width: 8px;
+  height: 1.5px;
+  background-color: #333;
+  transform: rotate(45deg);
+}
+.screw-tl { top: 10px; left: 10px; }
+.screw-tr { top: 10px; right: 10px; }
+.screw-bl { bottom: 10px; left: 10px; }
+.screw-br { bottom: 10px; right: 10px; }
+
+/* ------------------------------------------------------------- */
+/* NIXIE TUBE DASHBOARDS                                         */
+/* ------------------------------------------------------------- */
+.nixie-dashboard {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+}
+
+.nixie-casing {
+  flex: 1;
+  position: relative;
+  background: linear-gradient(to bottom, #2b1f1d, #140d0c, #0a0605);
+  border: 4px solid #1a1312;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 
+    inset 0 3px 8px rgba(0, 0, 0, 0.9),
+    0 2px 4px rgba(255,255,255,0.05),
+    0 8px 16px -4px rgba(0,0,0,0.8);
+}
+
+.nixie-glass {
+  background-color: var(--color-nixie-bg);
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.03);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.95);
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nixie-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #7a6e6b;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+}
+
+.nixie-display {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--color-nixie-glow-orange);
+  text-shadow: 
+    0 0 4px rgba(255, 94, 0, 0.3),
+    0 0 10px rgba(255, 94, 0, 0.8),
+    0 0 18px rgba(255, 94, 0, 0.4);
+  letter-spacing: 2px;
+}
+
+.nixie-display.display-blue {
+  color: var(--color-nixie-glow-blue);
+  text-shadow: 
+    0 0 4px rgba(0, 195, 255, 0.3),
+    0 0 10px rgba(0, 195, 255, 0.8),
+    0 0 18px rgba(0, 195, 255, 0.4);
+}
+
+.nixie-glare {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  height: 35%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 100%);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- */
+/* POLAROID AI SCANNER MODULE                                    */
+/* ------------------------------------------------------------- */
+.polaroid-scanner-casing {
+  position: relative;
+  background: linear-gradient(to bottom, #dcd5c9, #c7beaf);
+  border: 5px solid #ada597;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 
+    inset 0 1px 3px rgba(255,255,255,0.6),
+    inset 0 -2px 6px rgba(0,0,0,0.3),
+    0 10px 25px -5px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  color: #3e3830;
+}
+
+.module-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 2px ridge rgba(255,255,255,0.4);
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4a443a;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.camera-viewport-casing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #211e1b;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 5px 12px rgba(0,0,0,0.95),
+    0 1px 2px rgba(255,255,255,0.5);
+}
+
+/* Polaroid Photo Frame */
+.polaroid-frame {
+  background-color: var(--color-polaroid-frame);
+  padding: 12px 12px 28px 12px;
+  border-radius: 2px;
+  box-shadow: 
+    0 8px 20px rgba(0,0,0,0.7),
+    0 0 1px rgba(0,0,0,0.3);
+  transform: rotate(-1.5deg);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+}
+
+.polaroid-frame:hover {
+  transform: scale(1.03) rotate(0.5deg);
+}
+
+.photo-area {
+  width: 206px;
+  height: 206px;
+  background: radial-gradient(circle, #252830 0%, #15161a 100%);
+  border: 1px solid #e1ded3;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #727a8e;
+  gap: 12px;
+  text-align: center;
+  padding: 10px;
+}
+
+.camera-lens-art {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #333 40%, #111 70%);
+  border: 6px solid #4f5b66;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.6),
+    inset 0 2px 4px rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lens-outer {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #111;
+  border: 3px solid #222;
+  position: relative;
+  overflow: hidden;
+}
+
+.lens-inner {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 10px 10px, #075f82 10%, #032b3c 70%, #000 90%);
+}
+
+.lens-reflection {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+
+.placeholder-text {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6a7482;
+}
+
+.photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Green Scan Laser Overlay */
+.scan-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, rgba(0,255,0,0) 5%, rgba(0,255,0,1) 50%, rgba(0,255,0,0) 95%);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 0, 0.8),
+    0 0 20px rgba(0, 255, 0, 0.4);
+  animation: laser-sweep 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes laser-sweep {
+  0% { top: 0%; }
+  50% { top: calc(100% - 4px); }
+  100% { top: 0%; }
+}
+
+.polaroid-caption {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.handwritten-caption {
+  font-family: var(--font-handwritten);
+  font-size: 17px;
+  color: var(--color-ink);
+  font-weight: bold;
+}
+
+/* Scanner Controls Panel */
+.scanner-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preset-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metal-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #5a5449;
+}
+
+/* Skeuomorphic Custom Selector Dropdown */
+.custom-select-casing {
+  position: relative;
+  background: linear-gradient(to bottom, #fafafa, #eaeaea);
+  border: 2px solid #b2a99a;
+  border-radius: 6px;
+  box-shadow: 
+    inset 0 1px 3px rgba(0,0,0,0.2),
+    0 1px 2px rgba(255,255,255,0.8);
+  overflow: hidden;
+}
+
+.custom-select-casing select {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  color: #3e3830;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.custom-select-casing::after {
+  content: '▼';
+  font-size: 9px;
+  color: #5a5449;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.action-buttons-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+/* Brushed Metal Tactile Buttons */
+.metal-button {
+  flex: 1;
+  border: 1px solid #a39b8c;
+  background: linear-gradient(to bottom, #f3efe6 0%, #dcd3c0 50%, #c4b9a3 100%);
+  border-radius: 6px;
+  color: #4a443a;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  user-select: none;
+  /* Premium 3D Bevel style */
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255,255,255,0.9),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s ease;
+  min-height: 38px;
+}
+
+.metal-button:hover:not([disabled]) {
+  background: linear-gradient(to bottom, #faf6ee 0%, #e3dac7 50%, #cca3a3 100%);
+  background: linear-gradient(to bottom, #faf6ee 0%, #e3dac7 50%, #cdbfab 100%);
+}
+
+.metal-button:active:not([disabled]), .metal-button.active-state-btn:active:not([disabled]) {
+  transform: translateY(3px);
+  box-shadow: 
+    0 1px 2px rgba(0,0,0,0.4),
+    inset 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.metal-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------- */
+/* THERMAL PRINTER & RECEIPT                                      */
+/* ------------------------------------------------------------- */
+.printer-mechanism {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.printer-slot {
+  width: 90%;
+  height: 10px;
+  background-color: #0c0a09;
+  border-radius: 5px;
+  border: 2px solid #5a5449;
+  box-shadow: 
+    inset 0 2px 5px rgba(0,0,0,0.9),
+    0 1px 2px rgba(255,255,255,0.1);
+  position: relative;
+  z-index: 5;
+}
+
+/* Receipt Body */
+.thermal-receipt {
+  width: 80%;
+  background-color: #faf9f6;
+  color: #222;
+  box-shadow: 
+    0 15px 30px rgba(0,0,0,0.5),
+    0 0 1px rgba(0,0,0,0.2);
+  transform: translateY(-8px);
+  z-index: 4;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1.5s cubic-bezier(0.1, 0.9, 0.2, 1);
+  transform-origin: top center;
+  border: 1px solid #d4d0c5;
+}
+
+.thermal-receipt.printed {
+  max-height: 380px; /* Allow expansion when printed */
+}
+
+/* Jagged bottom tear line */
+.receipt-torn-edge {
+  height: 8px;
+  background-image: linear-gradient(135deg, transparent 4px, #faf9f6 4px), linear-gradient(-135deg, transparent 4px, #faf9f6 4px);
+  background-position: left top;
+  background-repeat: repeat-x;
+  background-size: 8px 8px;
+}
+
+.receipt-body {
+  padding: 15px 20px 20px 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+}
+
+.receipt-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.receipt-header h3 {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0;
+}
+
+.receipt-row.sub-row {
+  padding-left: 15px;
+  color: #555;
+}
+
+.receipt-row.font-bold {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.receipt-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  background-color: #eae7db;
+  padding: 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.health-badge {
+  background-color: #27ae60;
+  color: white;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 9px;
+}
+
+.receipt-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.receipt-log-btn {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #1e7e43;
+  width: 100%;
+  transition: all 0.05s ease;
+}
+
+.receipt-log-btn:active {
+  transform: translateY(3px);
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------------- */
+/* RIGHT PAGE: NOTEBOOK SHEET                                    */
+/* ------------------------------------------------------------- */
+.notebook-sheet {
+  background-color: var(--color-paper);
+  border-radius: 6px;
+  box-shadow: 
+    inset 0 0 10px rgba(0,0,0,0.05),
+    3px 5px 15px rgba(0,0,0,0.3);
+  padding: 24px 20px 24px 35px; /* Margin line padding on left */
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ruled paper texture */
+.notebook-sheet::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28px;
+  width: 2px;
+  background-color: var(--color-paper-margin);
+}
+
+.notebook-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid transparent;
+}
+
+.notebook-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #7f8c8d;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.handwritten-title {
+  font-family: var(--font-handwritten);
+  font-size: 20px;
+  color: var(--color-ink);
+  font-weight: bold;
+}
+
+.notebook-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.journal-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 10px;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+/* Ruled line items */
+.journal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-handwritten);
+  font-size: 16px;
+  color: var(--color-ink);
+  border-bottom: 1px dashed var(--color-paper-lines);
+  padding-bottom: 4px;
+}
+
+.journal-item .kcal {
+  font-weight: bold;
+}
+
+.journal-item .delete-scribble {
+  color: #c0392b;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  font-weight: bold;
+  user-select: none;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.journal-item .delete-scribble:hover {
+  opacity: 1;
+  text-decoration: line-through;
+}
+
+.empty-journal-msg {
+  font-family: var(--font-handwritten);
+  color: #929ba8;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Manual Calorie input panel styled like a pinned yellow sticky note */
+.manual-calorie-panel {
+  background: linear-gradient(135deg, #fef68a, #fdf04b);
+  padding: 12px 15px;
+  border-radius: 4px;
+  box-shadow: 
+    3px 6px 12px rgba(0,0,0,0.15),
+    inset 0 1px 2px rgba(255,255,255,0.4);
+  transform: rotate(1deg) translateY(10px);
+  margin-top: 15px;
+  color: #3f3f00;
+}
+
+.scribble-tag {
+  font-family: var(--font-handwritten);
+  font-weight: bold;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.manual-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.sticky-note-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 6px;
+  font-family: var(--font-handwritten);
+  font-weight: bold;
+  font-size: 13px;
+  color: #4a4a00;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sticky-note-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.sticky-note-btn:active {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.calorie-reset-btn {
+  grid-column: span 2;
+  background: rgba(192, 57, 43, 0.15);
+  border: 1px dashed #c0392b;
+  color: #7f2317;
+  padding: 6px;
+  font-family: var(--font-handwritten);
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.calorie-reset-btn:hover {
+  background: rgba(192, 57, 43, 0.25);
+}
+
+/* ------------------------------------------------------------- */
+/* WATER INTAKE COMPONENT                                        */
+/* ------------------------------------------------------------- */
+.water-tracker-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.gauge-metal-panel {
+  position: relative;
+  background: linear-gradient(to bottom, #303742, #1c2027);
+  border: 4px solid #13151b;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255,255,255,0.2),
+    0 10px 20px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 250px;
+}
+
+.gauge-metal-panel .panel-title {
+  color: #bdc3c7;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+  font-size: 10px;
+}
+
+/* Cylinder Glass tube */
+.water-casing-reflection {
+  width: 90px;
+  padding: 6px;
+  background: linear-gradient(to right, #0d0f12, #242933, #0d0f12);
+  border-radius: 40px;
+  box-shadow: 
+    0 5px 15px rgba(0,0,0,0.7),
+    inset 0 1px 2px rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: center;
+}
+
+.glass-cylinder {
+  position: relative;
+  width: 70px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 35px;
+  border: 3px solid rgba(255,255,255,0.15);
+  overflow: hidden;
+  box-shadow: 
+    inset 8px 0 15px rgba(255, 255, 255, 0.08),
+    inset -8px 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.glass-cylinder canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cylinder-measurement {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: right;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.cylinder-measurement span {
+  position: relative;
+}
+
+.cylinder-measurement span::after {
+  content: '—';
+  position: absolute;
+  right: 32px;
+  opacity: 0.6;
+}
+
+.glass-reflection-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 6px;
+  width: 14px;
+  background: linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Circular Gauge Dial */
+.dial-meter-wrapper {
+  margin-top: 5px;
+  width: 90px;
+  height: 90px;
+}
+
+.pressure-gauge {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #e6e6e6 50%, #999 85%, #555 100%);
+  border-radius: 50%;
+  border: 4px solid #1c2027;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(255,255,255,0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-face {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background-color: #faf8f5;
+  border: 1px solid #c8c5bc;
+  position: relative;
+}
+
+.gauge-indicator {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 2px;
+  height: 32px;
+  background-color: #e74c3c;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(-120deg); /* Range: -120deg to 120deg */
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+  z-index: 2;
+}
+
+.gauge-indicator::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+}
+
+.gauge-pin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border: 1px solid #aaa;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+.gauge-ticks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: bold;
+  color: #555;
+}
+
+.gauge-ticks .tick {
+  position: absolute;
+  text-align: center;
+}
+
+.tick-0   { left: 10px; bottom: 18px; transform: rotate(-60deg); }
+.tick-25  { left: 6px; top: 22px; transform: rotate(-30deg); }
+.tick-50  { left: calc(50% - 10px); top: 4px; width: 20px; }
+.tick-75  { right: 6px; top: 22px; transform: rotate(30deg); }
+.tick-100 { right: 10px; bottom: 18px; transform: rotate(60deg); }
+
+.gauge-label {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  font-weight: bold;
+  color: #888;
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Water Intake Mechanical Button Keypad */
+.water-keypad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Thick mechanical keys */
+.metal-round-btn {
+  background: #111;
+  border-radius: 8px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  box-shadow: 
+    0 4px 6px rgba(0,0,0,0.5),
+    inset 0 1px 2px rgba(255,255,255,0.05);
+}
+
+.btn-top {
+  display: block;
+  background: linear-gradient(to bottom, #4f5b66 0%, #343d46 100%);
+  border: 1px solid #111;
+  border-radius: 8px;
+  color: #cfd8dc;
+  font-family: var(--font-mono);
+  font-weight: bold;
+  font-size: 11px;
+  padding: 8px 4px;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.8);
+  box-shadow: 
+    inset 0 1px 1px rgba(255,255,255,0.2),
+    inset 0 -2px 3px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+  transition: transform 0.05s ease, background 0.05s ease;
+}
+
+.metal-round-btn:hover .btn-top {
+  background: linear-gradient(to bottom, #5d6b77 0%, #3f4a54 100%);
+}
+
+.metal-round-btn:active .btn-top {
+  transform: translateY(0);
+  box-shadow: 
+    inset 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.water-reset-btn {
+  grid-column: span 2;
+}
+
+.water-reset-btn .btn-top {
+  background: linear-gradient(to bottom, #9c3c32 0%, #70261f 100%);
+  color: #ffcdd2;
+}
+
+.water-reset-btn:hover .btn-top {
+  background: linear-gradient(to bottom, #ad473d 0%, #852e26 100%);
+}
+
+/* ------------------------------------------------------------- */
+/* WEEKLY SUMMARY TAPE (PRINTER DRAWER)                           */
+/* ------------------------------------------------------------- */
+.bottom-printer-casing {
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.printer-top-slot {
+  width: 100%;
+  height: 14px;
+  background: linear-gradient(to bottom, #111, #2d2621, #000);
+  border: 3px solid #6e5c4f;
+  border-radius: 7px;
+  box-shadow: 
+    inset 0 3px 5px rgba(0,0,0,0.95),
+    0 3px 6px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 3;
+}
+
+.printer-feed-btn {
+  margin-top: 10px;
+  background: linear-gradient(to bottom, #f39c12, #d35400);
+  border: 2px solid #a04000;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 12px;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.5);
+  box-shadow: 
+    0 4px 0 #8e2b00,
+    0 6px 10px rgba(0,0,0,0.5);
+  transition: all 0.05s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.printer-feed-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 #8e2b00, 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.feed-btn-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: rgba(255,255,255,0.25);
+}
+
+/* Weekly Ticket Tape Rollout */
+.weekly-ticket-tape {
+  width: 90%;
+  background-color: #faf9f5;
+  color: #1a1a1a;
+  border-left: 1px dashed #d5d0c4;
+  border-right: 1px dashed #d5d0c4;
+  box-shadow: 
+    0 15px 30px rgba(0,0,0,0.6),
+    inset 0 0 10px rgba(0,0,0,0.05);
+  transform: translateY(-8px);
+  z-index: 2;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1.8s cubic-bezier(0.1, 0.95, 0.2, 1);
+  transform-origin: top center;
+}
+
+.weekly-ticket-tape.printed {
+  max-height: 700px;
+}
+
+.receipt-torn-edge-top {
+  height: 8px;
+  background-image: linear-gradient(45deg, transparent 4px, #faf9f5 4px), linear-gradient(-45deg, transparent 4px, #faf9f5 4px);
+  background-position: left top;
+  background-repeat: repeat-x;
+  background-size: 8px 8px;
+}
+
+.ticket-body {
+  padding: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  text-shadow: 0 0 0.5px rgba(0,0,0,0.05);
+}
+
+.ticket-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.ticket-header h2 {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.ticket-subheading {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  background-color: #eae6da;
+  padding: 4px 6px;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  text-align: left;
+}
+
+/* ASCII Bar chart for Weekly summaries */
+.ascii-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 5px 0;
+}
+
+.chart-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 60px;
+  align-items: center;
+  gap: 8px;
+}
+
+.chart-day {
+  font-weight: bold;
+}
+
+.chart-bar-container {
+  height: 10px;
+  background-color: #eae5d7;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #dcd7c7;
+}
+
+.chart-bar-fill {
+  height: 100%;
+  background-color: #555555;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+.chart-bar-fill.target-met {
+  background-color: #27ae60;
+}
+
+.chart-bar-fill.target-missed {
+  background-color: #f39c12;
+}
+
+.chart-val {
+  text-align: right;
+  font-weight: bold;
+}
+
+.ticket-footer {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Skeuomorphic ink stamp */
+.audit-stamp {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: 15px;
+  text-transform: uppercase;
+  border: 3px double #e74c3c;
+  color: #e74c3c;
+  padding: 6px 15px;
+  transform: rotate(-8deg);
+  border-radius: 4px;
+  opacity: 0.85;
+  letter-spacing: 1px;
+  user-select: none;
+  display: inline-block;
+  box-shadow: 0 0 2px rgba(231,76,60,0.1);
+  text-shadow: 0 0 1px rgba(231,76,60,0.1);
+}
+
+.audit-stamp.stamp-passed {
+  border-color: #27ae60;
+  color: #27ae60;
+}
+
+.ticket-footer .barcode {
+  font-size: 16px;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  color: #333;
+}
+
+.ticket-footer .copyright {
+  font-size: 8px;
+  color: #777;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .organizer-book {
+    flex-direction: column;
+    min-height: auto;
+    gap: 30px;
+  }
+  .organizer-spine {
+    display: none;
+  }
+  .right-page {
+    grid-template-columns: 1fr;
+  }
+  .water-tracker-container {
+    margin-top: 20px;
+  }
+}

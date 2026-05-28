@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkeuoFit - Tactile Calorie & Water Journal</title>
+  <!-- Google Fonts for Retro LED, Handwritten Log, and Premium Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Share+Tech+Mono&family=VT323&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="desk-mat">
+    <!-- Main Skeuomorphic Organizer Book -->
+    <div class="organizer-book">
+      
+      <!-- Leather Spine / Metal Binders -->
+      <div class="organizer-spine">
+        <div class="spine-ring ring-1"></div>
+        <div class="spine-ring ring-2"></div>
+        <div class="spine-ring ring-3"></div>
+        <div class="spine-ring ring-4"></div>
+        <div class="spine-ring ring-5"></div>
+        <div class="spine-ring ring-6"></div>
+      </div>
+
+      <!-- LEFT PAGE: Retro Console & AI Polaroid Scanner -->
+      <div class="organizer-page left-page">
+        <!-- Nixie / Segmented LED Dashboards -->
+        <div class="nixie-dashboard">
+          <div class="nixie-casing">
+            <div class="nixie-glass">
+              <div class="nixie-label">CALORIES CONSUMED</div>
+              <div class="nixie-display" id="cal-display">0000 / 2000 kcal</div>
+            </div>
+            <div class="nixie-glare"></div>
+          </div>
+          
+          <div class="nixie-casing">
+            <div class="nixie-glass">
+              <div class="nixie-label">WATER INTAKE</div>
+              <div class="nixie-display display-blue" id="water-display">0000 / 3000 ml</div>
+            </div>
+            <div class="nixie-glare"></div>
+          </div>
+        </div>
+
+        <!-- Polaroid AI Scanner Module -->
+        <div class="polaroid-scanner-casing">
+          <div class="module-header">
+            <span class="screw screw-tl"></span>
+            <span class="screw screw-tr"></span>
+            <span class="panel-title">Polaroid AI Calorie Scanner</span>
+          </div>
+
+          <div class="camera-viewport-casing">
+            <!-- Polaroid Frame -->
+            <div class="polaroid-frame" id="polaroid-frame">
+              <div class="photo-area">
+                <div class="photo-placeholder" id="photo-placeholder">
+                  <div class="camera-lens-art">
+                    <div class="lens-outer">
+                      <div class="lens-inner">
+                        <div class="lens-reflection"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="placeholder-text">Drop or Select Food Photo</p>
+                </div>
+                <img id="photo-preview" class="photo-img hidden" src="" alt="Food Preview">
+                <div class="scan-laser hidden" id="scan-laser"></div>
+              </div>
+              <div class="polaroid-caption">
+                <span class="handwritten-caption" id="polaroid-caption-text">No food scanned...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls under the camera -->
+          <div class="scanner-controls">
+            <!-- Food Presets Selector -->
+            <div class="preset-wrapper">
+              <label for="food-presets" class="metal-label">Preset Foods</label>
+              <div class="custom-select-casing">
+                <select id="food-presets">
+                  <option value="" disabled selected>-- Choose Test Food --</option>
+                  <option value="pizza">Pepperoni Pizza (Slice)</option>
+                  <option value="salad">Garden Avocado Salad</option>
+                  <option value="burger">Cheeseburger & Fries</option>
+                  <option value="toast">Avocado Toast w/ Egg</option>
+                  <option value="sushi">Salmon Sushi Roll (8pc)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Upload Button -->
+            <div class="action-buttons-row">
+              <label class="metal-button upload-btn" id="upload-btn-label">
+                <input type="file" id="image-upload" accept="image/*" class="hidden">
+                <span>Upload Photo</span>
+              </label>
+              <button class="metal-button scan-btn active-state-btn" id="scan-btn" disabled>
+                <span>Analyze AI</span>
+              </button>
+            </div>
+          </div>
+          
+          <span class="screw screw-bl"></span>
+          <span class="screw screw-br"></span>
+        </div>
+
+        <!-- Receipt Printer Mechanism -->
+        <div class="printer-mechanism">
+          <div class="printer-slot"></div>
+          <!-- Printed Receipt Rolling out -->
+          <div class="thermal-receipt hidden" id="thermal-receipt">
+            <div class="receipt-torn-edge"></div>
+            <div class="receipt-body">
+              <div class="receipt-header">
+                <h3>*** AI FIT-SCANNER v1.0 ***</h3>
+                <p id="receipt-date">DATE: 2026-05-26 19:45</p>
+                <p>-------------------------</p>
+              </div>
+              <div class="receipt-content">
+                <div class="receipt-row font-bold">
+                  <span id="receipt-food-name">AVOCADO TOAST</span>
+                </div>
+                <p>-------------------------</p>
+                <div class="receipt-row">
+                  <span>Calories:</span>
+                  <span id="receipt-calories">380 kcal</span>
+                </div>
+                <div class="receipt-row sub-row">
+                  <span>- Protein:</span>
+                  <span id="receipt-protein">12g</span>
+                </div>
+                <div class="receipt-row sub-row">
+                  <span>- Carbs:</span>
+                  <span id="receipt-carbs">34g</span>
+                </div>
+                <div class="receipt-row sub-row">
+                  <span>- Fat:</span>
+                  <span id="receipt-fat">22g</span>
+                </div>
+                <p>-------------------------</p>
+                <div class="receipt-summary">
+                  <span>HEALTH INDEX:</span>
+                  <span class="health-badge" id="receipt-health-rating">EXCELLENT</span>
+                </div>
+              </div>
+              <div class="receipt-actions">
+                <button class="receipt-log-btn" id="receipt-log-btn">LOG TO JOURNAL</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PAGE: Daily Notebook Log & Water Physics Glass -->
+      <div class="organizer-page right-page">
+        <div class="notebook-sheet">
+          <div class="notebook-header">
+            <div class="notebook-date" id="notebook-date">Tuesday, May 26, 2026</div>
+            <h2 class="handwritten-title">Today's Nutrition Log</h2>
+          </div>
+
+          <!-- The handwritten list of eaten items -->
+          <div class="notebook-body">
+            <div class="journal-lines" id="journal-entries">
+              <!-- Empty state scribbled placeholder -->
+              <div class="empty-journal-msg" id="empty-journal-msg">
+                - No food items eaten yet today. Use the AI Camera scanner on the left or add manually below to populate your log!
+              </div>
+            </div>
+
+            <!-- Manual Calorie Incrementor Dial Panel -->
+            <div class="manual-calorie-panel">
+              <span class="scribble-tag">Quick manual entry:</span>
+              <div class="manual-buttons">
+                <button class="sticky-note-btn calorie-btn" data-kcal="100">+100 kcal</button>
+                <button class="sticky-note-btn calorie-btn" data-kcal="250">+250 kcal</button>
+                <button class="sticky-note-btn calorie-btn" data-kcal="500">+500 kcal</button>
+                <button class="sticky-note-btn calorie-reset-btn" id="calorie-reset-btn">Clear Log</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Water Tracker (Right side of notebook) -->
+        <div class="water-tracker-container">
+          <div class="gauge-metal-panel">
+            <span class="screw screw-tl"></span>
+            <span class="screw screw-tr"></span>
+            <span class="panel-title">Hydro-Cylinder 3000</span>
+
+            <div class="water-casing-reflection">
+              <!-- Realistic Liquid Cylinder -->
+              <div class="glass-cylinder">
+                <div class="cylinder-measurement">
+                  <span>3000ml</span>
+                  <span>2250ml</span>
+                  <span>1500ml</span>
+                  <span>750ml</span>
+                  <span>0ml</span>
+                </div>
+                <canvas id="water-canvas"></canvas>
+                <div class="glass-reflection-overlay"></div>
+              </div>
+            </div>
+
+            <!-- Water dial/gauge percentage -->
+            <div class="dial-meter-wrapper">
+              <div class="pressure-gauge">
+                <div class="gauge-face">
+                  <div class="gauge-indicator" id="gauge-hand"></div>
+                  <div class="gauge-pin"></div>
+                  <div class="gauge-ticks">
+                    <span class="tick tick-0">0%</span>
+                    <span class="tick tick-25">25%</span>
+                    <span class="tick tick-50">50%</span>
+                    <span class="tick tick-75">75%</span>
+                    <span class="tick tick-100">100%</span>
+                  </div>
+                </div>
+                <div class="gauge-label">PERCENT GOAL</div>
+              </div>
+            </div>
+
+            <!-- Metallic Buttons for Adding Water -->
+            <div class="water-keypad">
+              <button class="metal-round-btn water-btn" data-ml="250">
+                <span class="btn-top">+250ml</span>
+              </button>
+              <button class="metal-round-btn water-btn" data-ml="500">
+                <span class="btn-top">+500ml</span>
+              </button>
+              <button class="metal-round-btn water-btn" data-ml="1000">
+                <span class="btn-top">+1.0L</span>
+              </button>
+              <button class="metal-round-btn water-reset-btn" id="water-reset-btn">
+                <span class="btn-top">Empty</span>
+              </button>
+            </div>
+
+            <span class="screw screw-bl"></span>
+            <span class="screw screw-br"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Report Print Tape at the bottom -->
+    <div class="bottom-printer-casing">
+      <div class="printer-top-slot"></div>
+      <div class="printer-feed-btn" id="weekly-report-trigger">
+        <div class="feed-btn-glow"></div>
+        <span>PRINT WEEKLY REPORT</span>
+      </div>
+      
+      <!-- Weekly Report Ticket rolling out -->
+      <div class="weekly-ticket-tape" id="weekly-ticket-tape">
+        <div class="receipt-torn-edge-top"></div>
+        <div class="ticket-body">
+          <div class="ticket-header">
+            <h2>HEALTH LEDGER & WEEKLY LOG</h2>
+            <p>Generated: <span id="ticket-generation-time">2026-05-26 19:45</span></p>
+            <p>====================================</p>
+          </div>
+
+          <!-- Calorie History Bar Chart (SVG-based or Canvas-based skeuomorphic printed tape chart) -->
+          <div class="ticket-section">
+            <h3 class="ticket-subheading">CALORIES (Target: 2000 kcal)</h3>
+            <div class="ascii-bar-chart" id="cal-weekly-chart">
+              <!-- Dynamically populated weekly bars -->
+            </div>
+          </div>
+
+          <!-- Water History Bar Chart -->
+          <div class="ticket-section">
+            <h3 class="ticket-subheading">WATER INTAKE (Target: 3000 ml)</h3>
+            <div class="ascii-bar-chart" id="water-weekly-chart">
+              <!-- Dynamically populated weekly bars -->
+            </div>
+          </div>
+
+          <div class="ticket-footer">
+            <p>====================================</p>
+            <div class="audit-stamp stamp-pending" id="weekly-stamp">GOALS PROGRESSING</div>
+            <p class="barcode">||||| | ||||| | || |||| | ||||| | ||</p>
+            <p class="copyright">SKEUOFIT SYSTEM &copy; 1989-2026</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
